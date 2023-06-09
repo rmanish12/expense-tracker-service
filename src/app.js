@@ -6,11 +6,13 @@ const morgan = require("morgan");
 const winston = require("./config/logger");
 
 require("./config/db");
+const corsConfig = require("./config/cors");
+const bodyParserConfig = require("./config/bodyParser");
 
 const app = express();
 
-app.use(cors());
-app.use(bodyParser.json());
+app.use(cors(corsConfig));
+app.use(bodyParser.json(bodyParserConfig));
 app.use(cookieParser());
 app.use(morgan("combined", { stream: winston.stream }));
 
