@@ -1,5 +1,5 @@
-const express = require("express");
+const app = require("./app");
+const logger = require("./config/logger");
+const { APP_PORT } = require("./config/env");
 
-const app = express();
-const PORT = 5000;
-app.listen(PORT, () => {});
+app.listen(APP_PORT, () => logger.info(`Server started on PORT ${APP_PORT}`));
