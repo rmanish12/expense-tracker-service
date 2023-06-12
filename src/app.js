@@ -4,7 +4,9 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const winston = require("./config/logger");
-const AuthController = require("./routes/auth/auth.routes");
+const AuthRoutes = require("./routes/auth/auth.routes");
+const UserRoutes = require("./routes/user/user.routes");
+const authenticate = require("./middlewares/authentication");
 const errorHandler = require("./middlewares/errorHandler");
 
 require("./config/db");
@@ -19,8 +21,8 @@ app.use(bodyParser.json(bodyParserConfig));
 app.use(cookieParser());
 app.use(morgan("combined", { stream: winston.stream }));
 
-app.use("/auth", AuthController);
-
+app.use("/auth", AuthRoutes);
+app.use("/user", authenticate, UserRoutes);
 app.use(errorHandler);
 
 module.exports = app;
