@@ -18,18 +18,18 @@ services:
     ports:
       - 6379:6379
 
-  # expense-tracker:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: expense-tracker-service
-  #   volumes:
-  #     - ./:/app
-  #   depends_on:
-  #     - "mongo_db"
-  #     - "redis"
-  #   ports:
-  #     - 5000:5000
+  expense-tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: expense-tracker-service
+    volumes:
+      - ./:/app
+    depends_on:
+      - "mongo_db"
+      - "redis"
+    ports:
+      - 5000:5000
 
 volumes:
   mongodb_data:

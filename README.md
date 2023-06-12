@@ -2,6 +2,43 @@
 
 This project will work as a backend service for expense tracker application
 
+## Setting up database
+
+1. Run docker compose to spin up mongo db
+
+```bash
+docker-compose up -d
+```
+
+2. Connect DB with Mongo Atlas tool and login with the user and password mentioned in docker compose file
+
+3. Open mongosh from the bottom left corner
+
+4. Create database and admin user for that database
+
+```bash
+use expense-tracker
+
+db.createUser(
+  {
+   user: ["your-username"],
+   pwd: ["your-password"],
+   roles: [ "readWrite"]
+  })
+```
+
+5. Create .env file and set up the following variables
+
+```bash
+APP_PORT=<PORT YOU WANT YOUR SERVER TO RUN ON>
+DB_USER=<DB USER YOU CREATED>
+DB_PASSWORD=<DB PASSWORD FOR THAT USER>
+DB_HOST=localhost
+DB_PORT=27017
+DB_NAME=expense-tracker
+ALLOWED_ORIGIN=http://localhost:3000
+```
+
 ## Setting and starting up the project locally
 
 This project has been developed with node-v18.13.0 and npm-v8.19.3

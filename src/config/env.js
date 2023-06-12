@@ -7,7 +7,8 @@ const {
   DB_PORT,
   DB_NAME,
   APP_PORT,
-  ALLOWED_ORIGIN
+  ALLOWED_ORIGIN,
+  JWT_SECRET
 } = process.env;
 
 module.exports = {
@@ -17,5 +18,6 @@ module.exports = {
   DB_PORT,
   DB_NAME,
   APP_PORT,
-  ALLOWED_ORIGIN
+  ALLOWED_ORIGIN,
+  JWT_SECRET
 };
