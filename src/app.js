@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const winston = require("./config/logger");
 const AuthRoutes = require("./routes/auth/auth.routes");
 const UserRoutes = require("./routes/user/user.routes");
+const CategoryRoutes = require("./routes/category/category.routes");
 const authenticate = require("./middlewares/authentication");
 const errorHandler = require("./middlewares/errorHandler");
 
@@ -23,6 +24,7 @@ app.use(morgan("combined", { stream: winston.stream }));
 
 app.use("/auth", AuthRoutes);
 app.use("/user", authenticate, UserRoutes);
+app.use("/category", authenticate, CategoryRoutes);
 app.use(errorHandler);
 
 module.exports = app;
