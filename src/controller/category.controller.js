@@ -7,7 +7,7 @@ const createCategory = async (req, res, next) => {
   try {
     const { name, budgetType } = req.body;
     const category = await CategoryService.createCategory({ name, budgetType });
-    return res.status(StatusCodes.OK).send({ data: category });
+    return res.status(StatusCodes.CREATED).send({ data: category });
   } catch (err) {
     logger.error(`Error while creating category ---> ${err}`);
     return next(err);

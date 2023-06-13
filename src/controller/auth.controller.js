@@ -7,7 +7,7 @@ const registerUser = async (req, res, next) => {
   try {
     await AuthService.createUser(req.body);
     return res
-      .status(StatusCodes.OK)
+      .status(StatusCodes.CREATED)
       .send({ message: "User created successfully" });
   } catch (err) {
     logger.error(`Error while creating user ${req.body.email} ----> ${err}`);
