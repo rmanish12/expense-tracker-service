@@ -5,10 +5,12 @@ const { v4: uuidv4 } = require("uuid");
 const ItemSchema = new Schema({
   _id: {
     type: Schema.Types.UUID,
-    default: uuidv4()
+    default: uuidv4(),
+    alias: "id"
   },
   userId: {
     type: Schema.Types.UUID,
+    ref: "User",
     required: [true, "User id is requied for item"]
   },
   amount: {
@@ -23,7 +25,8 @@ const ItemSchema = new Schema({
     required: [true, "Date is required for item"]
   },
   categoryId: {
-    type: String.Types.UUID,
+    type: Schema.Types.UUID,
+    ref: "Category",
     required: [true, "Category id is required for item"]
   }
 });

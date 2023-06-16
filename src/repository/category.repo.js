@@ -35,10 +35,18 @@ const deleteCategory = async categoryId => {
   return category.deleteOne();
 };
 
+const getCategoryById = async categoryId => {
+  const category = await Category.findById(categoryId)
+    .select({ name: 1, budgetType: 1, _id: 0 })
+    .lean();
+  return category;
+};
+
 module.exports = {
   createCategory,
   getCategoriesByType,
   updateCategory,
   deleteCategory,
-  categoryExist
+  categoryExist,
+  getCategoryById
 };

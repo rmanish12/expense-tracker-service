@@ -7,8 +7,11 @@ async function connect() {
   await mongoose.connect(
     `mongodb://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT}/${DB_NAME}`
   );
+  return mongoose;
 }
 
 connect()
   .then(() => logger.info("DB CONNECTED"))
   .catch(err => logger.error(`Error while connecting to DB ${err}`));
+
+module.exports = mongoose;
