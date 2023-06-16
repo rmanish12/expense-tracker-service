@@ -3,6 +3,7 @@ const ItemRepo = require("../repository/item.repo");
 const logger = require("../config/logger");
 const { NotFoundError, ForbiddenError } = require("../errors");
 const mongoose = require("../config/db");
+const { generateExcel } = require("../helper/generateExcel");
 
 const getItemsResponseMapper = items => {
   const objMapper = itemObj => {
@@ -136,10 +137,24 @@ const deleteItem = async ({ email, userId, itemId }) => {
   }
 };
 
+const downloadItems = async userId => {
+  try {
+    const items = await getItems({ userId, limit: 10000 });
+
+    const workbook = await generateExcel(items);
+
+    return workbook;
+  } catch (err) {
+    logger.error(`Error while downloading items ---> ${err}`);
+    throw err;
+  }
+};
+
 module.exports = {
   createItem,
   getItems,
   updateItem,
   deleteItem,
-  getItemDetails
+  getItemDetails,
+  downloadItems
 };

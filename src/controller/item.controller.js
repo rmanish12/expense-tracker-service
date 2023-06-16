@@ -84,10 +84,38 @@ const deleteItem = async (req, res, next) => {
   }
 };
 
+const downloadItem = async (req, res, next) => {
+  logger.info("Invoking request for downloading items");
+  try {
+    // const { id: userId } = req.user;
+    const workbook = await ItemService.downloadItems(
+      "782993c3-ab9b-43f1-a9a5-486503e35a0d"
+    );
+    const fileName = `Item-${new Date()}`;
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename=${fileName}.xlsx`
+    );
+
+    return workbook.xlsx.write(res).then(() => {
+      res.status(StatusCodes.OK).end();
+    });
+  } catch (err) {
+    logger.error(`Error while downloading items ---> ${err}`);
+    return next(err);
+  }
+};
+
 module.exports = {
   createItem,
   getItems,
   updatedItem,
   deleteItem,
-  getItemDetails
+  getItemDetails,
+  downloadItem
 };

@@ -9,6 +9,8 @@ router.post(
   ItemController.createItem
 );
 
+router.get("/download", ItemController.downloadItem);
+
 router.get(
   "/:itemId",
   validateSchema([{ data: "params", schema: Schema.itemGenericReqParams }]),
