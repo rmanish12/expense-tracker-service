@@ -16,7 +16,7 @@ process.on("unhandledRejection", async () => {
   logger.info("Redis disconnected");
 });
 
-process.on("SIGINT", async signal => {
+process.on("SIGINT", async () => {
   await mongoose.connection.close();
   logger.info("DB DISCONNECTED");
   await redisClient.quit();
