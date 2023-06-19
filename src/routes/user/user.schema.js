@@ -3,9 +3,18 @@ const updateUserReqBody = {
   required: ["id", "email", "firstName", "lastName", "gender"],
   additionalProperties: false,
   properties: {
-    id: { type: "string" },
     email: { type: "string" },
-    firstName: { type: "string" },
+    firstName: {
+      type: "string",
+      allOf: [
+        {
+          transform: ["trim"]
+        },
+        {
+          minLength: 1
+        }
+      ]
+    },
     lastName: { type: "string" },
     gender: { type: "string" }
   }

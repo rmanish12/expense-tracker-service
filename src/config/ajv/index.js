@@ -1,7 +1,9 @@
 const Ajv = require("ajv");
-const _ = require("lodash");
+const ajvKeyword = require("ajv-keywords");
+const isEmpty = require("lodash.isempty");
 
 const ajv = new Ajv();
+ajvKeyword(ajv, ["transform"]);
 
 const validateSchema = validations => (req, res, next) => {
   const errors = [];
@@ -16,7 +18,7 @@ const validateSchema = validations => (req, res, next) => {
     }
   });
 
-  if (!_.isEmpty(errors)) next(errors);
+  if (!isEmpty(errors)) next(errors);
   next();
 };
 

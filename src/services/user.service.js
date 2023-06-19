@@ -1,3 +1,4 @@
+const isEmpty = require("lodash.isempty");
 const UserRepo = require("../repository/user.repo");
 const logger = require("../config/logger");
 const { NotFoundError, ForbiddenError, BadRequestError } = require("../errors");
@@ -20,7 +21,7 @@ const getUserDetails = async ({ userId }) => {
   try {
     const userExist = await UserRepo.userExist(userId);
 
-    if (!userExist) {
+    if (isEmpty(userExist)) {
       throw new NotFoundError("User does not exist");
     }
 

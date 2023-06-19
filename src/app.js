@@ -11,8 +11,9 @@ const ItemRoutes = require("./routes/item/item.routes");
 const authenticate = require("./middlewares/authentication");
 const errorHandler = require("./middlewares/errorHandler");
 
-require("./config/db");
-require("./config/redis");
+// require("./config/db");
+// require("./config/redis");
+require("./handleExceptions");
 const corsConfig = require("./config/cors");
 const bodyParserConfig = require("./config/bodyParser");
 

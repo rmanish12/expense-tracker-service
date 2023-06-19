@@ -87,10 +87,8 @@ const deleteItem = async (req, res, next) => {
 const downloadItem = async (req, res, next) => {
   logger.info("Invoking request for downloading items");
   try {
-    // const { id: userId } = req.user;
-    const workbook = await ItemService.downloadItems(
-      "782993c3-ab9b-43f1-a9a5-486503e35a0d"
-    );
+    const { id: userId } = req.user;
+    const workbook = await ItemService.downloadItems(userId);
     const fileName = `Item-${new Date()}`;
 
     res.setHeader(

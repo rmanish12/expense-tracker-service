@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require("uuid");
 const User = require("../models/user.model");
 const logger = require("../config/logger");
 
@@ -11,6 +12,7 @@ const createUser = async ({
   role
 }) => {
   const newUser = new User({
+    _id: uuidv4(),
     email,
     password,
     firstName,
@@ -29,12 +31,14 @@ const createUser = async ({
 };
 
 const findUserExistByEmail = async email => {
-  const user = await User.exists({ email }).exec();
+  const user = await User.exists({ email }).lean();
   return user;
 };
 
 const findUserByEmail = async email => {
-  const user = await User.findOne({ email }).exec();
+  const user = await User.findOne({ email })
+    .select({ _id: 1, email: 1, role: 1 })
+    .lean();
   return user;
 };
 

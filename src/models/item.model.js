@@ -33,6 +33,8 @@ const ItemSchema = new Schema({
 
 ItemSchema.set("timestamps", true);
 
+ItemSchema.index({ userId: 1 });
+
 const Item = mongoose.model("Item", ItemSchema);
 
 module.exports = Item;

@@ -1,10 +1,17 @@
 /* eslint-disable no-underscore-dangle */
+const isEmpty = require("lodash.isempty");
 const AuthRepo = require("../repository/auth.repo");
 const { hashPassword, comparePassword } = require("../helper/bcrypt");
-const { ConflictError, NotFoundError, ForbiddenError } = require("../errors");
+const {
+  ConflictError,
+  NotFoundError,
+  ForbiddenError,
+  BadRequestError
+} = require("../errors");
 const logger = require("../config/logger");
 const redisClient = require("../config/redis");
 const { generateToken } = require("../helper/jwt");
+const { validateEmail } = require("../validations");
 
 const createUser = async ({
   email,
@@ -16,9 +23,13 @@ const createUser = async ({
   role
 }) => {
   try {
+    if (!validateEmail(email)) {
+      throw new BadRequestError("Invalid payload");
+    }
+
     const user = await AuthRepo.findUserExistByEmail(email);
 
-    if (user) {
+    if (!isEmpty(user)) {
       throw new ConflictError("User with the given email already exist");
     }
 
@@ -40,6 +51,9 @@ const createUser = async ({
 
 const loginUser = async ({ email, password }) => {
   try {
+    if (!validateEmail(email)) {
+      throw new BadRequestError("Invalid payload");
+    }
     const user = await AuthRepo.findUserByEmail(email);
 
     if (!user) {
