@@ -1,7 +1,8 @@
 /* eslint-disable no-underscore-dangle */
+const isEmpty = require("lodash.isempty");
 const CategoryRepo = require("../repository/category.repo");
 const logger = require("../config/logger");
-const { ConflictError } = require("../errors");
+const { ConflictError, NotFoundError } = require("../errors");
 
 const getCategoryResponseMapper = category => {
   if (Array.isArray(category)) {
@@ -30,7 +31,7 @@ const createCategory = async ({ name, budgetType }) => {
   try {
     const categoryExist = await CategoryRepo.categoryExist(name, budgetType);
 
-    if (categoryExist) {
+    if (!isEmpty(categoryExist)) {
       throw new ConflictError("Categoy combination already exist");
     }
     const category = await CategoryRepo.createCategory(name, budgetType);
@@ -57,6 +58,11 @@ const getCategoriesByType = async budgetType => {
 
 const updateCategory = async ({ categoryId, newName }) => {
   try {
+    const category = await CategoryRepo.getCategoryById(categoryId);
+
+    if (isEmpty(category)) {
+      throw new NotFoundError("Category does not exist");
+    }
     const updatedCategory = await CategoryRepo.updateCategory(
       categoryId,
       newName
@@ -70,6 +76,11 @@ const updateCategory = async ({ categoryId, newName }) => {
 
 const deleteCategory = async categoryId => {
   try {
+    const category = await CategoryRepo.getCategoryById(categoryId);
+
+    if (isEmpty(category)) {
+      throw new NotFoundError("Category does not exist");
+    }
     await CategoryRepo.deleteCategory(categoryId);
   } catch (err) {
     logger.error(`Error while deleting category ${categoryId} ---> ${err}`);

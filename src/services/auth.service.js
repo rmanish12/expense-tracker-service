@@ -56,7 +56,7 @@ const loginUser = async ({ email, password }) => {
     }
     const user = await AuthRepo.findUserByEmail(email);
 
-    if (!user) {
+    if (isEmpty(user)) {
       throw new NotFoundError(`User with email does not exist`);
     }
 

@@ -8,7 +8,8 @@ const {
   DB_NAME,
   APP_PORT,
   ALLOWED_ORIGIN,
-  JWT_SECRET
+  JWT_SECRET,
+  NODE_ENV
 } = process.env;
 
 module.exports = {
@@ -19,5 +20,6 @@ module.exports = {
   DB_NAME,
   APP_PORT,
   ALLOWED_ORIGIN,
-  JWT_SECRET
+  JWT_SECRET,
+  NODE_ENV
 };

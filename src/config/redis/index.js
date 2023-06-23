@@ -1,5 +1,6 @@
 const { createClient } = require("redis");
 const logger = require("../logger");
+const { NODE_ENV } = require("../env");
 
 const client = createClient();
 
@@ -14,6 +15,6 @@ async function init() {
   }
 }
 
-init();
+if (NODE_ENV !== "test") init();
 
 module.exports = client;
