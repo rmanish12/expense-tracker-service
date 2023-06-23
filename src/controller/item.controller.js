@@ -22,13 +22,15 @@ const getItems = async (req, res, next) => {
   logger.info("Invoking request for getting items");
   try {
     const { id } = req.user;
-    const { sortBy, sortOrder, limit, offset } = req.query;
+    const { sortBy, sortOrder, limit, offset, fromDate, toDate } = req.query;
     const items = await ItemService.getItems({
       userId: id,
       sortBy,
       sortOrder,
       limit,
-      offset
+      offset,
+      fromDate,
+      toDate
     });
     return res.status(StatusCodes.OK).send({ data: items });
   } catch (err) {

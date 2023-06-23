@@ -40,6 +40,31 @@ const getItems = async ({ userId, sortBy, sortOrder, limit, offset }) => {
   return items;
 };
 
+const getItemsInDateRange = async ({
+  userId,
+  fromDate,
+  toDate,
+  sortBy,
+  sortOrder,
+  limit,
+  offset
+}) => {
+  const items = await Item.find({ userId })
+    .where({ dateOfTransaction: { $gte: fromDate, $lte: toDate } })
+    .select({
+      _id: 1,
+      amount: 1,
+      dateOfTransaction: 1,
+      categoryId: 1
+    })
+    .populate("categoryId", { name: 1, budgetType: 1, _id: 0 })
+    .sort({ [sortBy]: sortOrder })
+    .limit(limit)
+    .skip(offset)
+    .lean();
+  return items;
+};
+
 const getItemDetails = async itemId => {
   const item = await Item.findById(itemId)
     .select({
@@ -68,6 +93,15 @@ const deleteItem = async itemId => Item.findByIdAndDelete(itemId);
 
 const itemExist = async itemId => Item.exists().where("_id", itemId).exec();
 
+const getItemsOverview = async ({ userId, fromDate, toDate }) => {
+  const items = await Item.find({ userId })
+    .where({ dateOfTransaction: { $gte: fromDate, $lte: toDate } })
+    .select({ amount: 1, category: 1 })
+    .populate("categoryId", { name: 1, budgetType: 1, _id: 0 })
+    .lean();
+  return items;
+};
+
 module.exports = {
   createItem,
   getItems,
@@ -75,5 +109,7 @@ module.exports = {
   deleteItem,
   getItemDetails,
   getItemById,
-  itemExist
+  itemExist,
+  getItemsOverview,
+  getItemsInDateRange
 };

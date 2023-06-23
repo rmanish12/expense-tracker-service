@@ -76,7 +76,7 @@ const loginUser = async ({ email, password }) => {
       role: user.role
     });
 
-    await redisClient.set(token, user._id);
+    await redisClient.set(token, "");
     return { token };
   } catch (err) {
     logger.error(`Error while logging in user ${email} --- ${err}`);

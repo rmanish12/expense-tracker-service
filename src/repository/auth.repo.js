@@ -37,7 +37,7 @@ const findUserExistByEmail = async email => {
 
 const findUserByEmail = async email => {
   const user = await User.findOne({ email })
-    .select({ _id: 1, email: 1, role: 1 })
+    .select({ _id: 1, email: 1, role: 1, isActive: 1, password: 1 })
     .lean();
   return user;
 };

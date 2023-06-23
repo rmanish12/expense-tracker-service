@@ -8,11 +8,10 @@ const AuthRoutes = require("./routes/auth/auth.routes");
 const UserRoutes = require("./routes/user/user.routes");
 const CategoryRoutes = require("./routes/category/category.routes");
 const ItemRoutes = require("./routes/item/item.routes");
+const OverviewRoutes = require("./routes/overview/overview.routes");
 const authenticate = require("./middlewares/authentication");
 const errorHandler = require("./middlewares/errorHandler");
 
-// require("./config/db");
-// require("./config/redis");
 require("./handleExceptions");
 const corsConfig = require("./config/cors");
 const bodyParserConfig = require("./config/bodyParser");
@@ -28,6 +27,7 @@ app.use("/auth", AuthRoutes);
 app.use("/user", authenticate, UserRoutes);
 app.use("/category", authenticate, CategoryRoutes);
 app.use("/item", authenticate, ItemRoutes);
+app.use("/overview", authenticate, OverviewRoutes);
 app.use(errorHandler);
 
 module.exports = app;

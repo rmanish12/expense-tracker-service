@@ -4,6 +4,7 @@ const logger = require("../config/logger");
 const { NotFoundError, ForbiddenError } = require("../errors");
 const mongoose = require("../config/db");
 const { generateExcel } = require("../helper/generateExcel");
+const { getDates } = require("../helper/dateHelper");
 
 const getItemsResponseMapper = items => {
   const objMapper = itemObj => {
@@ -41,14 +42,25 @@ const checkItem = async (itemId, email) => {
   return item;
 };
 
-const getItems = async ({ userId, sortBy, sortOrder, limit, offset }) => {
+const getItems = async ({
+  userId,
+  sortBy,
+  sortOrder,
+  limit,
+  offset,
+  fromDate,
+  toDate
+}) => {
+  const { startDate, endDate } = getDates(fromDate, toDate);
   try {
-    const items = await ItemRepo.getItems({
+    const items = await ItemRepo.getItemsInDateRange({
       userId,
       sortBy: sortBy || "dateOfTransaction",
       sortOrder: sortOrder || "desc",
       limit: limit || 10,
-      offset: offset || 0
+      offset: offset || 0,
+      fromDate: startDate,
+      toDate: endDate
     });
 
     return getItemsResponseMapper(items);

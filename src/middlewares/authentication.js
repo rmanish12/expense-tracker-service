@@ -8,8 +8,8 @@ const authenticateUser = async (req, res, next) => {
   try {
     if (!bearerToken) throw new UnautheticateError("Unautheticated");
     const authToken = bearerToken.substring(7);
-    const userId = await redisClient.get(authToken);
-    if (!userId) {
+    const redisValue = await redisClient.get(authToken);
+    if (redisValue === null) {
       throw new UnautheticateError("Unautheticated");
     }
     const payload = decodeToken(authToken);

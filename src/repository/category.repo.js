@@ -1,3 +1,4 @@
+const { v4: uuidv4 } = require("uuid");
 const Category = require("../models/category.model");
 
 const categoryExist = async (name, budgetType) => {
@@ -10,6 +11,7 @@ const categoryExist = async (name, budgetType) => {
 
 const createCategory = async (name, budgetType) => {
   const category = new Category({
+    _id: uuidv4(),
     name,
     budgetType
   });

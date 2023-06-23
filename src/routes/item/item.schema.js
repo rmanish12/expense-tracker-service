@@ -32,7 +32,9 @@ const getItemsReqQuery = {
       enum: ["asc", "desc"]
     },
     limit: { type: "string" },
-    offset: { type: "string" }
+    offset: { type: "string" },
+    fromDate: { type: "string" },
+    toDate: { type: "string" }
   }
 };
 
